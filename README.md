@@ -10,7 +10,7 @@
 6. Show map widget for airport chosen using latitude and longitude from autocomplete chosen airport. Use this map api https://openlayers.org/doc/quickstart.html
 7. Create a widget that calculate the distance from artic circle to airport https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
 
-8. Use bootstrap 4/tailwindcss for ui
+8. Use tailwindcss for ui
 
 9. Create db table called analytic (id, create_at, widget_name, browser_type, ). Everytime user clicks on a widget, call api /analytic and send the widget name to log it in the db.
 
@@ -18,11 +18,15 @@
 
 11. Create widget export xml that will export the analytic database as xml file. Create backend route to handle this.
 
+    (b) add route to import the analytic xml file.
+
 12. Query https://www.reddit.com/r/programming.json and create a reddit widget where we show the top 4 even post as cards in the widget (title, link, who posted it). Create backend route to handle this.
 
 13. Count # of coin widget. Once user type in a money amount, and click calculate, we show how many bills to add up to the money amount. The bills allowed are: $20 bill, $10 bill, $5 bill, $1 bill, $25 cent, $10 cent, $5 cent, $1 cent. Create backend route to handle this.
 
 14. Rate limit analytic api to only be able to be called 10 times a minute.
+
+15. If the rate limit is exceeded, redirect to a page that requires user to pay for the service ($5) with stripe.  Free to use stripe checkout or payment element.
 
 15. Create upload widget where we upload image to server. Save image to db table. Always show the latest image uploaded above upload button.
 
@@ -48,6 +52,7 @@ Have basic html ui showing the chat log using UL and single input box with send 
 When I type a message in send message, call /send POST api to send message to backend. The chat room is updated with new message.
 All client browsers have an api called /poll that check if chat room on redis is updated. If updated, it will return 200 and frontend
 need to call GET /chat/all to pull all the messages in chat room which you will update the UL. Have a button called save where it will save the current chat room chat messages to database table chat with fields (id, create_at, chat_messages).
+
 
 Stripe key:
 
