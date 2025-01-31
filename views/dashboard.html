@@ -1,0 +1,573 @@
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
+    <section class="flex flex-col gap-2">
+        <div class="bg-white rounded-lg px-[50px] py-[30px] shadow-md" id="weatherCard">
+          <div class="flex flex-col items-center space-y-2">
+            <img id="weatherIcon" src="/images/sunny.png" alt="Weather" class="w-[151px] h-[151px]">
+            <span id="temperature" class="text-2xl font-bold">Loading...</span>
+          </div>
+        </div>
+
+     
+        <div class="bg-white rounded-lg p-4 shadow-md">
+          <div class="space-y-2">
+            <h3 class="text-sm text-gray-500">Number of Clicks</h3>
+            <p class="text-2xl font-bold" id="clickCount">--</p>
+          </div>
+        </div>
+
+    
+        <div class="bg-white rounded-lg p-4 shadow-md">
+          <div class="space-y-2">
+            <h3 class="text-sm text-gray-500">Export XML</h3>
+            <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded">
+                Export Analytics
+            </button>
+          </div>
+        </div>
+
+        </section>
+     
+        <section class="flex flex-col gap-4">
+          <!-- Airport Search Autocomplete -->
+          <div class="bg-white rounded-xl p-6 shadow-md">
+            <div class="relative">
+              <input 
+                type="text" 
+                id="airportSearch"
+                placeholder="Search airports by name, code or city..." 
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                autocomplete="off"
+              >
+              <div id="autocompleteResults" class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg hidden max-h-60 overflow-y-auto">
+                <!-- Results will be populated here -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Map Container -->
+          <div class="bg-white rounded-xl p-6 shadow-md md:col-span-2">
+            <div id="map" class="h-[280px] bg-gray-50 rounded-lg overflow-hidden"></div>
+          </div>
+
+          <!-- Distance Indicator -->
+          <div class="bg-white rounded-xl p-6 shadow-md">
+            <div class="space-y-3">
+              <h3 class="text-sm font-medium text-gray-600 tracking-wide">Distance from Arctic</h3>
+              <div class="flex items-baseline gap-2">
+                <p class="text-3xl font-bold text-gray-900" data-distance>--</p>
+                <span class="text-lg font-medium text-gray-500">KM</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+  
+        <div class=" rounded-lg p-4  ">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-white p-4 rounded">
+              <div class="text-center">
+                <h3 class="text-sm font-normal text-gray-600 mb-1">Nigeria Time</h3>
+                <p class="font-mono text-[32px] leading-none tracking-wider" data-time="nigeria">--:--:--</p>
+              </div>
+            </div>
+            <div class="bg-white p-4 rounded">
+              <div class="text-center">
+                <h3 class="text-sm font-normal text-gray-600 mb-1">London Time</h3>
+                <p class="font-mono text-[32px] leading-none tracking-wider" data-time="london">--:--:--</p>
+              </div>
+            </div>
+            <div class="bg-white p-4 rounded">
+              <div class="text-center">
+                <h3 class="text-sm font-normal text-gray-600 mb-1">Pakistan Time</h3>
+                <p class="font-mono text-[32px] leading-none tracking-wider" data-time="pakistan">--:--:--</p>
+              </div>
+            </div>
+            <div class="bg-white p-4 rounded">
+              <div class="text-center">
+                <h3 class="text-sm font-normal text-gray-600 mb-1">EST Time</h3>
+                <p class="font-mono text-[32px] leading-none tracking-wider" data-time="est">--:--:--</p>
+              </div>
+            </div>
+           <!-- Reddit Widget -->
+<div class="bg-white rounded-lg p-4 ">
+  <h3 class="text-sm text-gray-500 mb-4">Programming News</h3>
+  <div class="space-y-3" id="redditPosts">
+    <!-- Posts will be populated here -->
+  </div>
+</div>
+         <!-- Coin Calculator Widget -->
+<div class="bg-white rounded-lg p-4 ">
+  <div class="space-y-2">
+    <h3 class="text-sm text-gray-500">Coin Calculator</h3>
+    <div class="space-y-3">
+      <input 
+        type="number" 
+        id="amountInput"
+        step="0.01"
+        class="w-full px-3 py-2 border rounded-lg"
+        placeholder="Enter amount"
+      >
+      <button 
+        id="calculateBtn"
+        class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded"
+      >
+        Calculate
+      </button>
+      <div id="coinResults" class="text-sm space-y-1">
+        <!-- Results will be shown here -->
+      </div>
+    </div>
+  </div>
+</div>
+            <div class="invisible"></div>
+          <!-- Upload Widget -->
+<div class="bg-white rounded-lg p-4 ">
+  <div class="space-y-4">
+    <h3 class="text-sm text-gray-500">Image Upload</h3>
+    <div id="latestImage" class="w-full h-40 bg-gray-100 rounded-lg flex items-center justify-center">
+      <!-- Latest image will be shown here -->
+    </div>
+    <form id="uploadForm" class="space-y-2">
+      <input 
+        type="file" 
+        id="imageInput" 
+        accept="image/*" 
+        class="w-full"
+      >
+      <button 
+        type="submit"
+        class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded"
+      >
+        Upload Image
+      </button>
+    </form>
+  </div>
+</div>
+        </div>
+        </div>
+          </div>
+        </div>
+
+     
+       
+
+       
+      
+      </div>
+    </div>
+
+<!-- Weather Update Script -->
+<script>
+  async function fetchWeather() {
+    try {
+      const response = await fetch('/weather/current');
+      if (!response.ok) throw new Error('Weather fetch failed');
+      
+      const data = await response.json();
+      
+      // Update temperature
+      const temperatureElement = document.getElementById('temperature');
+      temperatureElement.textContent = `${data.temp_c} °C`;
+      
+      // Update weather icon
+      const iconElement = document.getElementById('weatherIcon');
+      iconElement.src = data.icon;
+      iconElement.alt = data.condition;
+      
+    } catch (error) {
+      console.error('Error fetching weather:', error);
+      const temperatureElement = document.getElementById('temperature');
+      temperatureElement.textContent = 'Error loading weather';
+    }
+  }
+
+  // Initial fetch
+  fetchWeather();
+
+  // Update every 5 minutes
+  setInterval(fetchWeather, 5 * 60 * 1000);
+</script>
+
+<script>
+  function updateTimes() {
+    const timeElements = {
+      nigeria: document.querySelector('[data-time="nigeria"]'),
+      london: document.querySelector('[data-time="london"]'),
+      pakistan: document.querySelector('[data-time="pakistan"]'),
+      est: document.querySelector('[data-time="est"]')
+    };
+
+    // Initial fetch from server to sync times
+    async function fetchServerTimes() {
+      try {
+        const response = await fetch('/api/times');
+        if (!response.ok) throw new Error('Failed to fetch times');
+        const times = await response.json();
+        
+        // Update all time displays
+        Object.keys(times).forEach(zone => {
+          if (timeElements[zone]) {
+            timeElements[zone].textContent = times[zone];
+          }
+        });
+      } catch (error) {
+        console.error('Error fetching times:', error);
+      }
+    }
+
+    // Update times locally every second
+    function updateLocalTimes() {
+      const now = new Date();
+      
+      // Convert to each timezone using the browser's built-in capabilities
+      const formatter = new Intl.DateTimeFormat('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+
+      Object.keys(timeElements).forEach(zone => {
+        let time;
+        switch(zone) {
+          case 'nigeria':
+            time = formatter.format(new Date(now.toLocaleString('en-US', { timeZone: 'Africa/Lagos' })));
+            break;
+          case 'london':
+            time = formatter.format(new Date(now.toLocaleString('en-US', { timeZone: 'Europe/London' })));
+            break;
+          case 'pakistan':
+            time = formatter.format(new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Karachi' })));
+            break;
+          case 'est':
+            time = formatter.format(new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' })));
+            break;
+        }
+        if (timeElements[zone]) {
+          timeElements[zone].textContent = time;
+        }
+      });
+    }
+
+    // Initial fetch to sync with server
+    fetchServerTimes();
+
+    // Update locally every second
+    setInterval(updateLocalTimes, 1000);
+
+    // Sync with server every minute to prevent drift
+    setInterval(fetchServerTimes, 60000);
+  }
+
+  // Start the clock when the page loads
+  document.addEventListener('DOMContentLoaded', updateTimes);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/ol@v8.2.0/dist/ol.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v8.2.0/ol.css">
+
+<script>
+  let map;
+  let marker;
+  const ARCTIC_CIRCLE_LAT = 66.5622;
+  const ARCTIC_CIRCLE_LON = 0;
+  let searchTimeout = null;
+
+  // Initialize map
+  function initMap() {
+    map = new ol.Map({
+      target: 'map',
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM()
+        })
+      ],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([0, 0]),
+        zoom: 2
+      })
+    });
+  }
+
+  // Update map marker
+  function updateMapMarker(lon, lat) {
+    if (marker) {
+      map.removeLayer(marker);
+    }
+    
+    const markerFeature = new ol.Feature({
+      geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat]))
+    });
+
+    marker = new ol.layer.Vector({
+      source: new ol.source.Vector({
+        features: [markerFeature]
+      }),
+      style: new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 6,
+          fill: new ol.style.Fill({color: '#3b82f6'}),
+          stroke: new ol.style.Stroke({color: '#1d4ed8', width: 2})
+        })
+      })
+    });
+
+    map.addLayer(marker);
+    map.getView().animate({
+      center: ol.proj.fromLonLat([lon, lat]),
+      zoom: 8,
+      duration: 1000
+    });
+  }
+
+  // Calculate distance using Haversine formula
+  function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Earth's radius in km
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  }
+
+  const airportSearch = document.getElementById('airportSearch');
+  const autocompleteResults = document.getElementById('autocompleteResults');
+
+  airportSearch.addEventListener('input', (e) => {
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+    }
+
+    const searchTerm = e.target.value.trim();
+    
+    if (searchTerm.length < 3) {
+      autocompleteResults.classList.add('hidden');
+      return;
+    }
+
+    searchTimeout = setTimeout(async () => {
+      try {
+        const response = await fetch(`/airports?search=${encodeURIComponent(searchTerm)}`);
+        const airports = await response.json();
+        
+        if (airports.length === 0) {
+          autocompleteResults.innerHTML = `
+            <div class="p-3 text-gray-500 text-sm">No airports found</div>
+          `;
+        } else {
+          autocompleteResults.innerHTML = airports.map(airport => `
+            <div class="p-3 hover:bg-gray-100 cursor-pointer border-b last:border-b-0" 
+                 data-lat="${airport.latitude}" 
+                 data-lon="${airport.longitude}"
+                 data-id="${airport.id}">
+              <div class="font-medium">${airport.name}</div>
+              <div class="text-sm text-gray-600">
+                ${airport.municipality ? airport.municipality + ', ' : ''}${airport.country} (${airport.ident})
+              </div>
+            </div>
+          `).join('');
+        }
+        
+        autocompleteResults.classList.remove('hidden');
+      } catch (error) {
+        console.error('Error fetching airports:', error);
+        autocompleteResults.innerHTML = `
+          <div class="p-3 text-red-500 text-sm">Error loading results</div>
+        `;
+      }
+    }, 300);
+  });
+
+  autocompleteResults.addEventListener('click', (e) => {
+    const airport = e.target.closest('[data-lat]');
+    if (!airport) return;
+
+    const lat = parseFloat(airport.dataset.lat);
+    const lon = parseFloat(airport.dataset.lon);
+
+    // Update input with selected airport name
+    airportSearch.value = airport.querySelector('.font-medium').textContent;
+    autocompleteResults.classList.add('hidden');
+    
+    // Update map
+    updateMapMarker(lon, lat);
+    
+    // Calculate and update distance
+    const distance = calculateDistance(lat, lon, ARCTIC_CIRCLE_LAT, ARCTIC_CIRCLE_LON);
+    document.querySelector('[data-distance]').textContent = `${distance.toFixed(1)}`;
+  });
+
+  // Close autocomplete when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!airportSearch.contains(e.target) && !autocompleteResults.contains(e.target)) {
+      autocompleteResults.classList.add('hidden');
+    }
+  });
+
+  // Initialize map on page load
+  document.addEventListener('DOMContentLoaded', initMap);
+</script>
+
+<script>
+// Add this at the start of your script section
+const WIDGET_NAMES = {
+    WEATHER: 'weather_widget',
+    CLICKS: 'clicks_widget',
+    EXPORT: 'export_widget',
+    AIRPORT: 'airport_widget',
+    MAP: 'map_widget',
+    ARCTIC: 'arctic_widget',
+    TIMES: 'times_widget',
+    UPLOAD: 'upload_widget',
+    REDDIT: 'reddit_widget'
+};
+
+// Function to log widget clicks
+async function logWidgetClick(widgetName) {
+    try {
+        await fetch('/analytic', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ widget_name: widgetName })
+        });
+    } catch (error) {
+        console.error('Error logging click:', error);
+    }
+}
+
+// Function to update click count
+async function updateClickCount() {
+    try {
+        const response = await fetch('/clicks');
+        const data = await response.json();
+        document.querySelector('#clickCount').textContent = data.count;
+    } catch (error) {
+        console.error('Error updating click count:', error);
+    }
+}
+
+// Update click count every minute
+setInterval(updateClickCount, 60000);
+
+// Initial click count update
+updateClickCount();
+
+// Add click handlers to all widgets
+document.addEventListener('DOMContentLoaded', () => {
+    // Weather widget
+    document.getElementById('weatherCard').addEventListener('click', () => {
+        logWidgetClick(WIDGET_NAMES.WEATHER);
+    });
+
+    // Airport search
+    document.getElementById('airportSearch').addEventListener('focus', () => {
+        logWidgetClick(WIDGET_NAMES.AIRPORT);
+    });
+
+    // Map interactions
+    document.getElementById('map').addEventListener('click', () => {
+        logWidgetClick(WIDGET_NAMES.MAP);
+    });
+
+    // Export XML button
+    document.querySelector('button').addEventListener('click', async () => {
+        logWidgetClick(WIDGET_NAMES.EXPORT);
+        window.location.href = '/export-xml';
+    });
+
+    // Add handlers for other widgets...
+});
+</script>
+
+
+
+
+
+
+
+<script>
+// Reddit Posts
+async function loadRedditPosts() {
+  try {
+    const response = await fetch('/reddit-posts');
+    const posts = await response.json();
+    
+    document.getElementById('redditPosts').innerHTML = posts.map(post => `
+      <div class="border-b pb-2 last:border-b-0 last:pb-0">
+        <a href="${post.link}" target="_blank" class="text-sm font-medium hover:text-blue-500">
+          ${post.title}
+        </a>
+        <p class="text-xs text-gray-500">Posted by ${post.author}</p>
+      </div>
+    `).join('');
+  } catch (error) {
+    console.error('Error loading Reddit posts:', error);
+  }
+}
+
+// Coin Calculator
+document.getElementById('calculateBtn').addEventListener('click', async () => {
+  const amount = document.getElementById('amountInput').value;
+  try {
+    const response = await fetch('/calculate-coins', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount })
+    });
+    const result = await response.json();
+    
+    document.getElementById('coinResults').innerHTML = Object.entries(result)
+      .filter(([_, count]) => count > 0)
+      .map(([denomination, count]) => `
+        <div>${count} x ${denomination}</div>
+      `).join('');
+  } catch (error) {
+    console.error('Error calculating coins:', error);
+  }
+});
+
+// Image Upload
+document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const formData = new FormData();
+  formData.append('image', document.getElementById('imageInput').files[0]);
+  
+  try {
+    const response = await fetch('/upload', {
+      method: 'POST',
+      body: formData
+    });
+    const result = await response.json();
+    
+    if (result.success) {
+      loadLatestImage();
+    }
+  } catch (error) {
+    console.error('Error uploading image:', error);
+  }
+});
+
+async function loadLatestImage() {
+  try {
+    const response = await fetch('/latest-image');
+    const image = await response.json();
+    
+    if (image.path) {
+      document.getElementById('latestImage').innerHTML = `
+        <img src="${image.path}" alt="Latest upload" class="max-h-full object-contain">
+      `;
+    }
+  } catch (error) {
+    console.error('Error loading latest image:', error);
+  }
+}
+
+// Initial loads
+loadRedditPosts();
+loadLatestImage();
+</script>

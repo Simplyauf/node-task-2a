@@ -1,0 +1,123 @@
+<div class="max-w-2xl mx-auto p-4">
+  <div class="bg-white rounded-lg shadow-md p-4 space-y-4">
+    <div class="h-96 overflow-y-auto border rounded-lg p-4">
+      <ul id="messageList" class="space-y-2">
+        <!-- Messages will appear here -->
+      </ul>
+    </div>
+
+    <div class="flex gap-2">
+      <input
+        type="text"
+        id="messageInput"
+        class="flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        placeholder="Type your message..."
+      />
+      <button
+        id="sendButton"
+        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+      >
+        Send
+      </button>
+    </div>
+
+    <button
+      id="saveButton"
+      class="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+    >
+      Save Chat History
+    </button>
+  </div>
+</div>
+
+<script>
+  let currentVersion = 0;
+
+  // Load initial messages
+  async function loadMessages() {
+    try {
+      const response = await fetch("/chat/all");
+      const data = await response.json();
+      updateMessageList(data.messages);
+    } catch (error) {
+      console.error("Error loading messages:", error);
+    }
+  }
+
+  // Update message list
+  function updateMessageList(messages) {
+    const messageList = document.getElementById("messageList");
+    messageList.innerHTML = messages
+      .map(
+        (msg) => `
+                <li class="p-2 bg-gray-50 rounded">
+                    <div class="text-sm">${msg.text}</div>
+                    <div class="text-xs text-gray-500">${new Date(
+                      msg.timestamp
+                    ).toLocaleString()}</div>
+                </li>
+            `
+      )
+      .join("");
+    messageList.scrollTop = messageList.scrollHeight;
+  }
+
+  // Send message
+  async function sendMessage() {
+    const input = document.getElementById("messageInput");
+    const message = input.value.trim();
+
+    if (!message) return;
+
+    try {
+      await fetch("/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message }),
+      });
+
+      input.value = "";
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  }
+
+  // Long polling function
+  async function pollMessages() {
+    try {
+      const response = await fetch(`/poll?version=${currentVersion}`);
+      if (response.status === 200) {
+        const data = await response.json();
+        currentVersion = data.version;
+        await loadMessages();
+      }
+    } catch (error) {
+      console.error("Polling error:", error);
+    }
+
+    // Continue polling
+    pollMessages();
+  }
+
+  // Save chat history
+  async function saveChat() {
+    try {
+      await fetch("/save", { method: "POST" });
+      alert("Chat history saved!");
+    } catch (error) {
+      console.error("Error saving chat:", error);
+      alert("Failed to save chat history");
+    }
+  }
+
+  // Event listeners
+  document.getElementById("sendButton").addEventListener("click", sendMessage);
+  document.getElementById("messageInput").addEventListener("keypress", (e) => {
+    if (e.key === "Enter") sendMessage();
+  });
+  document.getElementById("saveButton").addEventListener("click", saveChat);
+
+  // Initialize
+  loadMessages();
+  pollMessages();
+</script>
